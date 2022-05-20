@@ -28,8 +28,9 @@ async function run() {
         });
 
         //Load data base on id
-        app.get('/inventory/:id' , async(req, res) =>{
+        app.get('/inventory/:id' , async (req, res) =>{
             const id = req.params.id;
+            
             const query = {_id: ObjectId(id)};
             const product = await itemCollection.findOne(query);
             res.send(product);
