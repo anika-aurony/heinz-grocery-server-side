@@ -19,6 +19,16 @@ async function run() {
         await client.connect();
         const itemCollection = client.db('warehouseInventory').collection('product');
 
+        app.get('/user', async (req, res) => {
+            const email = req.query.email;
+            console.log(email)
+            const query = {email: email};
+            const cursor = itemCollection.find(query);
+            const myItem = await cursor.toArray();
+            res.send(myItem);
+
+        });
+        
         app.get('/inventory', async (req, res) => {
             const query = {};
             const cursor = itemCollection.find(query);
@@ -26,6 +36,8 @@ async function run() {
             res.send(products);
 
         });
+
+        
 
         //Load data base on id
         app.get('/inventory/:id' , async (req, res) =>{
@@ -35,6 +47,8 @@ async function run() {
             const product = await itemCollection.findOne(query);
             res.send(product);
         });
+
+
 
         //POST
         app.post('/inventory', async (req, res) => {
